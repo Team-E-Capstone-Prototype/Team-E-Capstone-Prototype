@@ -27,5 +27,4 @@ public interface ControllerInterface
     bool IsAiming();
 
     bool ToggleCrouch();
-
 }

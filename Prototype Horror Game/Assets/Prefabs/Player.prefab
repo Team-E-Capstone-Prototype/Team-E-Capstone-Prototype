@@ -227,10 +227,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Speed: 10
   m_MaxDistance: 1
-  m_JumpForce: 1.5
-  PlayerCamera: {fileID: 5132340487982419653}
-  m_RotationSpeed: 200
+  m_PlayerCamera: {fileID: 0}
+  m_RotationSpeed: 2
   m_CameraVerticalAngle: 0
+  m_CameraHorizontalAngle: 0
 --- !u!143 &5132340488471346943
 CharacterController:
   m_ObjectHideFlags: 0
