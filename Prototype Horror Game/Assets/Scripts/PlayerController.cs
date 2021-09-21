@@ -36,6 +36,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         HandleCharacterMovement();
+
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            OnLeftMouseClick();
+        }
     }
 
     void FixedUpdate()
@@ -87,5 +92,25 @@ public class PlayerController : MonoBehaviour
 
         // Change the players position based on the targetDirection
         transform.position += targetDirection * m_Speed * Time.deltaTime;
+    }
+
+    void OnLeftMouseClick()
+    {
+        Ray interactionRay = m_PlayerCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit interactionInfo;
+
+        if (Physics.Raycast(interactionRay, out interactionInfo, 100))
+        {
+            if (interactionInfo.collider != null)
+            {
+                GameObject hitObject = interactionInfo.collider.gameObject;
+
+                if (hitObject.tag == "Interactable Object")
+                {
+                    hitObject.transform.position = transform.position;
+                }
+            }
+        }
+
     }
 }
