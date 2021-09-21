@@ -64,33 +64,16 @@ public class PlayerController : MonoBehaviour
         MoveCharacter();
 
         // Character Rotation
-        // CameraRotation();
+        CameraRotation();
 
         // Character Jump and Gravity
-        //JumpAndGravity();
+        JumpAndGravity();
 
         UpdateHand();
-
-        transform.Rotate(
-          new Vector3(0f, (m_Controller.GetLookInput().x * m_RotationSpeed * 1.0f),
-              0f), Space.Self);
-
-        {
-            // add vertical inputs to the camera's vertical angle
-            m_CameraVerticalAngle += m_Controller.GetLookInput().y * m_RotationSpeed * 1.0f;
-
-            // limit the camera's vertical angle to min/max
-            m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
-
-            // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
-            m_PlayerCamera.transform.localEulerAngles = new Vector3(m_CameraVerticalAngle, 0, 0);
-        }
-
     }
 
     public void CameraRotation()
     {
-        //{
         //    // Set PlayerRotation to mouse input
         //    m_PlayerRotation += m_Controller.GetLookInput() * m_RotationSpeed;
         //    m_PlayerRotation.z = 0.0f;
@@ -106,23 +89,20 @@ public class PlayerController : MonoBehaviour
 
         //    // Change the players camera rotation based on Quaternion
         //    m_PlayerCamera.transform.rotation = xQuat * yQuat;
-        //}
 
         // Horizontal character rotation
         {
             // Rotate the transform with the input speed around its local Y axis
-            transform.Rotate(
-                new Vector3(0f, (m_Controller.GetLookInput().x * m_RotationSpeed * 1.0f),
-                    0f), Space.Self);
+            transform.Rotate(new Vector3(0f, (m_Controller.GetLookInput().x * m_RotationSpeed * 1.0f), 0f), Space.Self);
         }
 
         // Vertical camera rotation
         {
             // Add vertical inputs to the camera's vertical angle
-            m_CameraVerticalAngle += m_Controller.GetLookInput().z * m_RotationSpeed * 1.0f;
+            m_CameraVerticalAngle += m_Controller.GetLookInput().y * m_RotationSpeed * 1.0f;
 
             // Limit the camera's vertical angle to min/max
-            m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
+            m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -90.0f, 90.0f);
 
             // Apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
             m_PlayerCamera.transform.localEulerAngles = new Vector3(m_CameraVerticalAngle, 0, 0);
