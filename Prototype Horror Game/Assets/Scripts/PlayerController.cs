@@ -10,7 +10,10 @@ public class PlayerController : MonoBehaviour
 
     // Player
     public float m_Speed = 10.0f; // Movement Speed
-    public float m_MaxDistance = 1.0f; // Max Distance of Checking Ground
+    private Vector3 m_JumpVelocity; // Jump Velocity
+    private bool m_isGrounded = true; // Is Player Grounded?
+    private float m_JumpHeight = 1.0f; // Jump Height
+    private float gravityValue = -9.81f; // Gravity
 
     // Camera
     public Camera m_PlayerCamera; // First Person Camera
@@ -18,7 +21,6 @@ public class PlayerController : MonoBehaviour
     public float m_CameraVerticalAngle = 0.0f; // Vertical Angle of Camera
     public float m_CameraHorizontalAngle = 0.0f; // Vertical Angle of Camera
     Vector3 m_PlayerRotation = Vector3.zero;
-
 
     // Start is called before the first frame update
     void Start()
@@ -42,18 +44,25 @@ public class PlayerController : MonoBehaviour
     {
     }
 
-    public bool GroundCheck()
-    {
-        return Physics.Raycast(transform.position, Vector3.down, m_MaxDistance); // or 
-    }
-
     public void HandleCharacterMovement()
     {
+        // Check if player is grounded
+        m_isGrounded = m_CharacterController.isGrounded;
+
+        // Set Jump Velocity to 0 if the player is grounded and the velocity is less than 0
+        if (m_isGrounded && m_JumpVelocity.y < 0)
+        {
+            m_JumpVelocity.y = 0f;
+        }
+
         // Character Movement
         MoveCharacter();
 
         // Character Rotation
         CameraRotation();
+
+        // Character Jump and Gravity
+        JumpAndGravity();
     }
 
     public void CameraRotation()
@@ -85,7 +94,24 @@ public class PlayerController : MonoBehaviour
 
         targetDirection.y = 0.0f;
 
-        // Change the players position based on the targetDirection
-        transform.position += targetDirection * m_Speed * Time.deltaTime;
+        // Change the players movement based on the targetDirection
+        m_CharacterController.Move(targetDirection * m_Speed * Time.deltaTime);
+    }
+
+
+    public void JumpAndGravity()
+    {
+        // If player input for Jump is pressed and is grounded...
+        if (m_Controller.IsJumping() && m_isGrounded)
+        {
+            // Get a Jump Velocity based on Jump Height and Gravity
+            m_JumpVelocity.y += Mathf.Sqrt(m_JumpHeight * -3.0f * gravityValue);
+        }
+
+        // Gravity 
+        m_JumpVelocity.y += gravityValue * Time.deltaTime;
+
+        // Change the players movement based on the Jump Velocity
+        m_CharacterController.Move(m_JumpVelocity * Time.deltaTime);
     }
 }
