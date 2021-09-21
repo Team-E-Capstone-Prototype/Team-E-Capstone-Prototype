@@ -22,6 +22,11 @@ public class PlayerController : MonoBehaviour
     public float m_CameraHorizontalAngle = 0.0f; // Vertical Angle of Camera
     Vector3 m_PlayerRotation = Vector3.zero;
 
+    // Raycasts
+    Ray interactionRay;
+    RaycastHit interactionInfo;
+    GameObject hitObject;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,10 +44,14 @@ public class PlayerController : MonoBehaviour
     {
         HandleCharacterMovement();
 
+        HighlightObjects();
+
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
             OnLeftMouseClick();
         }
+
+        ResetHighlightedObject();
     }
 
     void FixedUpdate()
@@ -122,21 +131,36 @@ public class PlayerController : MonoBehaviour
 
     void OnLeftMouseClick()
     {
-        Ray interactionRay = m_PlayerCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit interactionInfo;
+        if (hitObject.tag == "Interactable Object")
+        {
+            hitObject.transform.position = transform.position;
+        }
+    }
+
+    void HighlightObjects()
+    {
+        interactionRay = m_PlayerCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(interactionRay, out interactionInfo, 100))
         {
-            if (interactionInfo.collider != null)
+            if (interactionInfo.collider.gameObject != null)
             {
-                GameObject hitObject = interactionInfo.collider.gameObject;
-
+                hitObject = interactionInfo.collider.gameObject;
                 if (hitObject.tag == "Interactable Object")
                 {
-                    hitObject.transform.position = transform.position;
+                    hitObject.GetComponent<Renderer>().material.color = Color.blue;
                 }
             }
         }
+    }
 
+    void ResetHighlightedObject()
+    {
+        if (hitObject !=null && hitObject.tag != "Interactable Object")
+        {
+            GameObject selectedObject = GameObject.FindGameObjectWithTag("Interactable Object");
+
+            selectedObject.GetComponent<Renderer>().material.color = Color.white;
+        }
     }
 }
