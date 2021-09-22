@@ -14,11 +14,7 @@ public class PlayerController : MonoBehaviour
     private bool m_isGrounded = true; // Is Player Grounded?
     private float m_JumpHeight = 1.0f; // Jump Height
     private float gravityValue = -9.81f; // Gravity
-
     public GameObject m_Hand;
-
-    Vector3 m_HandLocalPosition;
-    public Transform DefaultHandPosition;
 
     // Camera
     public Camera m_PlayerCamera; // First Person Camera
@@ -68,8 +64,6 @@ public class PlayerController : MonoBehaviour
 
         // Character Jump and Gravity
         JumpAndGravity();
-
-        UpdateHand();
     }
 
     public void CameraRotation()
@@ -121,11 +115,7 @@ public class PlayerController : MonoBehaviour
 
         // Change the players movement based on the targetDirection
         m_CharacterController.Move(targetDirection * m_Speed * Time.deltaTime);
-
-
-        //  m_Hand.transform.position = targetDirection + m_Hand.transform.position;
     }
-
 
     public void JumpAndGravity()
     {
@@ -141,22 +131,5 @@ public class PlayerController : MonoBehaviour
 
         // Change the players movement based on the Jump Velocity
         m_CharacterController.Move(m_JumpVelocity * Time.deltaTime);
-    }
-
-    public void UpdateHand()
-    {
-        //m_Hand.transform.rotation = m_PlayerCamera;
-        Vector3 diff = m_Controller.GetLookInput();
-        diff.Normalize();
-
-        float rotation = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-
-        // m_Hand.transform.rotation = m_PlayerCamera.transform.rotation;
-        //m_Hand.transform.LookAt(transform);
-        //m_Hand.transform.Rotate(m_Controller.GetLookInput());
-
-        m_HandLocalPosition = Vector3.Lerp(m_HandLocalPosition, DefaultHandPosition.localPosition, m_Speed * Time.deltaTime);
-
-
     }
 }
