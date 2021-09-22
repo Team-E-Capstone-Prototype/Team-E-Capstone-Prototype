@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private bool m_isGrounded = true; // Is Player Grounded?
     private float m_JumpHeight = 1.0f; // Jump Height
     private float gravityValue = -9.81f; // Gravity
+    public GameObject m_Hand;
 
     // Camera
     public Camera m_PlayerCamera; // First Person Camera
@@ -46,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
         HighlightObjects();
 
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             OnLeftMouseClick();
         }
@@ -81,21 +82,39 @@ public class PlayerController : MonoBehaviour
 
     public void CameraRotation()
     {
-        // Set PlayerRotation to mouse input
-        m_PlayerRotation += m_Controller.GetLookInput() * m_RotationSpeed;
-        m_PlayerRotation.z = 0.0f;
+        //    // Set PlayerRotation to mouse input
+        //    m_PlayerRotation += m_Controller.GetLookInput() * m_RotationSpeed;
+        //    m_PlayerRotation.z = 0.0f;
 
-        // Clamp Player Rotation to (-90, 90)
-        m_PlayerRotation.y = Mathf.Clamp(m_PlayerRotation.y, -90.0f, 90.0f);
+        //    // Clamp Player Rotation to (-90, 90)
+        //    m_PlayerRotation.y = Mathf.Clamp(m_PlayerRotation.y, -90.0f, 90.0f);
 
-        // Get a rotation based on mouse input around (0, 1, 0)
-        Quaternion xQuat = Quaternion.AngleAxis(m_PlayerRotation.x, Vector3.up);
+        //    // Get a rotation based on mouse input around (0, 1, 0)
+        //    Quaternion xQuat = Quaternion.AngleAxis(m_PlayerRotation.x, Vector3.up);
 
-        // Get a rotation based on mouse input around (-1, 0, 0)
-        Quaternion yQuat = Quaternion.AngleAxis(m_PlayerRotation.y, Vector3.left);
+        //    // Get a rotation based on mouse input around (-1, 0, 0)
+        //    Quaternion yQuat = Quaternion.AngleAxis(m_PlayerRotation.y, Vector3.left);
 
-        // Change the players camera rotation based on Quaternion
-        m_PlayerCamera.transform.localRotation = xQuat * yQuat;
+        //    // Change the players camera rotation based on Quaternion
+        //    m_PlayerCamera.transform.rotation = xQuat * yQuat;
+
+        // Horizontal character rotation
+        {
+            // Rotate the transform with the input speed around its local Y axis
+            transform.Rotate(new Vector3(0f, (m_Controller.GetLookInput().x * m_RotationSpeed * 1.0f), 0f), Space.Self);
+        }
+
+        // Vertical camera rotation
+        {
+            // Add vertical inputs to the camera's vertical angle
+            m_CameraVerticalAngle += m_Controller.GetLookInput().y * m_RotationSpeed * 1.0f;
+
+            // Limit the camera's vertical angle to min/max
+            m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -90.0f, 90.0f);
+
+            // Apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
+            m_PlayerCamera.transform.localEulerAngles = new Vector3(m_CameraVerticalAngle, 0, 0);
+        }
     }
 
     public void MoveCharacter()
@@ -111,7 +130,6 @@ public class PlayerController : MonoBehaviour
         // Change the players movement based on the targetDirection
         m_CharacterController.Move(targetDirection * m_Speed * Time.deltaTime);
     }
-
 
     public void JumpAndGravity()
     {
@@ -156,7 +174,7 @@ public class PlayerController : MonoBehaviour
 
     void ResetHighlightedObject()
     {
-        if (hitObject !=null && hitObject.tag != "Interactable Object")
+        if (hitObject != null && hitObject.tag != "Interactable Object")
         {
             GameObject selectedObject = GameObject.FindGameObjectWithTag("Interactable Object");
 
