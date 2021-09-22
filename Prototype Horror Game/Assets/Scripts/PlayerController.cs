@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     public float m_CameraHorizontalAngle = 0.0f; // Vertical Angle of Camera
     Vector3 m_PlayerRotation = Vector3.zero;
 
+    float mouseY;
+
     // Raycasts
     Ray interactionRay;
     RaycastHit interactionInfo;
@@ -38,6 +40,7 @@ public class PlayerController : MonoBehaviour
         // Cursor setup
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
     }
 
     // Update is called once per frame
@@ -107,13 +110,14 @@ public class PlayerController : MonoBehaviour
         // Vertical camera rotation
         {
             // Add vertical inputs to the camera's vertical angle
-            m_CameraVerticalAngle += m_Controller.GetLookInput().y * m_RotationSpeed * 1.0f;
+            m_CameraVerticalAngle -= m_Controller.GetLookInput().y * m_RotationSpeed;
 
             // Limit the camera's vertical angle to min/max
             m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -90.0f, 90.0f);
 
             // Apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
-            m_PlayerCamera.transform.localEulerAngles = new Vector3(m_CameraVerticalAngle, 0, 0);
+            m_PlayerCamera.transform.localRotation = Quaternion.Euler(m_CameraVerticalAngle, 0.0f, 0.0f);
+
         }
     }
 
@@ -167,6 +171,9 @@ public class PlayerController : MonoBehaviour
                 if (hitObject.tag == "Interactable Object")
                 {
                     hitObject.GetComponent<Renderer>().material.color = Color.blue;
+
+                    // Display Hand Grab UI
+                    this.GetComponent<UIAppear>().ShowHandGrabUI();
                 }
             }
         }
@@ -179,6 +186,10 @@ public class PlayerController : MonoBehaviour
             GameObject selectedObject = GameObject.FindGameObjectWithTag("Interactable Object");
 
             selectedObject.GetComponent<Renderer>().material.color = Color.white;
+
+            // Hide Hand Grab UI
+            this.GetComponent<UIAppear>().HideHandGrabUI();
+
         }
     }
 }
