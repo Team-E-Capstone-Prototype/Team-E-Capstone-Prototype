@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
         HighlightObjects();
 
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             OnLeftMouseClick();
         }
@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviour
 
     void ResetHighlightedObject()
     {
-        if (hitObject !=null && hitObject.tag != "Interactable Object")
+        if (hitObject != null && hitObject.tag != "Interactable Object")
         {
             GameObject selectedObject = GameObject.FindGameObjectWithTag("Interactable Object");
 
