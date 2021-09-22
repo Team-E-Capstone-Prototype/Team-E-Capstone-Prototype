@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class DoorTrigger : MonoBehaviour
 {
-    Animator m_Door;
-    bool m_DoorAnimLock = true;
+    public Door m_Door;
+
+    bool m_IsActive = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_Door = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
@@ -19,12 +20,12 @@ public class Door : MonoBehaviour
 
     }
 
-    public void OpenDoor()
+    void OnTriggerEnter(Collider other)
     {
-        if (m_DoorAnimLock)
+        if (m_IsActive)
         {
-            m_DoorAnimLock = false;
-            m_Door.SetBool("m_IsOpen", true);
+            m_IsActive = false;
+            m_Door.OpenDoor();
         }
     }
 }
