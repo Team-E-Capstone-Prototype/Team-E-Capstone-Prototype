@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 1748842889423853170}
   - component: {fileID: 1748842889423853169}
   - component: {fileID: 1748842889423853168}
+  - component: {fileID: 6525025748687424920}
   - component: {fileID: 1748842889423853171}
   m_Layer: 0
   m_Name: Capsule
@@ -167,6 +168,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &6525025748687424920
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748842889423853181}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!136 &1748842889423853171
 CapsuleCollider:
   m_ObjectHideFlags: 0
