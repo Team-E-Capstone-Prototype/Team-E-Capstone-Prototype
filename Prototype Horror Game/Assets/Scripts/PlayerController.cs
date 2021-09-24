@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour
 
     void OnLeftMouseClick()
     {
-        if (hitObject.tag == "Moveable Door")
+        if (hitObject.tag == "Moveable Door" || hitObject.tag=="Interactable Object")
         {
             if (m_isObjectHeld == false)
             {
@@ -175,8 +175,8 @@ public class PlayerController : MonoBehaviour
 
     void HighlightObjects()
     {
-        interactionRay = m_PlayerCamera.ScreenPointToRay(Input.mousePosition);
-
+        //interactionRay = m_PlayerCamera.ScreenPointToRay(Input.mousePosition);
+        interactionRay = m_PlayerCamera.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         if (Physics.Raycast(interactionRay, out interactionInfo, 100))
         {
             if (interactionInfo.collider.gameObject != null)
