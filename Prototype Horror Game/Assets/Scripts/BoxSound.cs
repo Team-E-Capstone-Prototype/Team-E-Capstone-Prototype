@@ -9,7 +9,7 @@ public class BoxSound : MonoBehaviour
     public AudioEmitter m_AEmitter;
 
 
-    public float MaxAudioRange = 50f;
+    public float MaxAudioRange = 10f;
     public float maxForce = 5;
 
     bool m_AudioToggle = true;
