@@ -6,8 +6,10 @@ public class BoxSound : MonoBehaviour
 {
     public AudioClip m_FirstAudioClip;
     public AudioClip m_SecondAudioClip;
-    public AudioSource m_Audio;
+    public AudioEmitter m_AEmitter;
 
+
+    public float MaxAudioRange = 50f;
     public float maxForce = 5;
 
     bool m_AudioToggle = true;
@@ -15,8 +17,7 @@ public class BoxSound : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_Audio = GetComponent<AudioSource>();
-        m_Audio.playOnAwake = false;
+        m_AEmitter = GetComponent<AudioEmitter>();
     }
 
     // Update is called once per frame
@@ -41,12 +42,12 @@ public class BoxSound : MonoBehaviour
             if (m_AudioToggle)
             {
                 m_AudioToggle = false;
-                m_Audio.PlayOneShot(m_FirstAudioClip, volume);
+                m_AEmitter.EmitSound(m_FirstAudioClip, volume, volume * MaxAudioRange);
             }
             else
             {
                 m_AudioToggle = true;
-                m_Audio.PlayOneShot(m_SecondAudioClip, volume);
+                m_AEmitter.EmitSound(m_SecondAudioClip, volume, volume * MaxAudioRange);
             }
         }
     }
