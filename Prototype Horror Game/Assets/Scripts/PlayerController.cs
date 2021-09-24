@@ -24,11 +24,13 @@ public class PlayerController : MonoBehaviour
     Vector3 m_PlayerRotation = Vector3.zero;
 
     float mouseY;
+    bool m_isObjectHeld;
 
     // Raycasts
     Ray interactionRay;
     RaycastHit interactionInfo;
     GameObject hitObject;
+    GameObject objectInHand;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +43,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        m_isObjectHeld = false;
     }
 
     // Update is called once per frame
@@ -50,16 +53,17 @@ public class PlayerController : MonoBehaviour
 
         HighlightObjects();
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            OnLeftMouseClick();
-        }
+        
 
         ResetHighlightedObject();
     }
 
     void FixedUpdate()
     {
+        if (Input.GetButton("Fire1"))
+        {
+            OnLeftMouseClick();
+        }
     }
 
     public void HandleCharacterMovement()
@@ -153,9 +157,19 @@ public class PlayerController : MonoBehaviour
 
     void OnLeftMouseClick()
     {
-        if (hitObject.tag == "Interactable Object")
+        if (hitObject.tag == "Moveable Door")
         {
-            hitObject.transform.position = transform.position;
+            if (m_isObjectHeld == false)
+            {
+                Debug.Log("Trying Pickup");
+                TryPickup();
+            }
+            //hitObject.transform.position = transform.position;
+            else
+            {
+                Debug.Log("Holding");
+                holdObject();
+            }
         }
     }
 
@@ -168,7 +182,7 @@ public class PlayerController : MonoBehaviour
             if (interactionInfo.collider.gameObject != null)
             {
                 hitObject = interactionInfo.collider.gameObject;
-                if (hitObject.tag == "Interactable Object")
+                if (hitObject.tag == "Interactable Object" || hitObject.tag == "Moveable Door")
                 {
                     hitObject.GetComponent<Renderer>().material.color = Color.blue;
 
@@ -191,5 +205,49 @@ public class PlayerController : MonoBehaviour
             this.GetComponent<UIAppear>().HideHandGrabUI();
 
         }
+    }
+
+    void TryPickup()
+    {
+        if (m_isObjectHeld == false)
+        {
+            Ray playerAim = m_PlayerCamera.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            RaycastHit hitInfo;
+
+            if (Physics.Raycast(playerAim, out hitInfo, 3.0f))
+            {
+                objectInHand = hitInfo.collider.gameObject;
+
+                //if (objectInHand.tag == "Moveable Door")
+                {
+                    m_isObjectHeld = true;
+                    objectInHand.GetComponent<Rigidbody>().useGravity = true;
+                    objectInHand.GetComponent<Rigidbody>().freezeRotation = false;
+                }
+            }
+        }
+    }
+
+    void holdObject()
+    {
+        Ray playerAim = m_PlayerCamera.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
+        Vector3 nextPos = m_PlayerCamera.transform.position + playerAim.direction * 3f;
+        Vector3 currPos = objectInHand.transform.position;
+
+        objectInHand.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * 10;
+
+        if (Vector3.Distance(objectInHand.transform.position, m_PlayerCamera.transform.position) > 5.0f)
+        {
+            DropObject();
+        }
+    }
+
+    void DropObject()
+    {
+        m_isObjectHeld = false;
+        objectInHand.GetComponent<Rigidbody>().useGravity = true;
+        objectInHand.GetComponent<Rigidbody>().freezeRotation = false;
+        objectInHand = null;
     }
 }
