@@ -42,12 +42,12 @@ public class BoxSound : MonoBehaviour
             if (m_AudioToggle)
             {
                 m_AudioToggle = false;
-                m_AEmitter.EmitSound(m_FirstAudioClip, volume, volume * MaxAudioRange);
+                m_AEmitter.EmitSound(m_FirstAudioClip, volume, volume * volume * MaxAudioRange);
             }
             else
             {
                 m_AudioToggle = true;
-                m_AEmitter.EmitSound(m_SecondAudioClip, volume, volume * MaxAudioRange);
+                m_AEmitter.EmitSound(m_SecondAudioClip, volume, volume * volume * MaxAudioRange);
             }
         }
     }
