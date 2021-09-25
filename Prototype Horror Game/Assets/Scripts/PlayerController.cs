@@ -28,6 +28,18 @@ public class PlayerController : MonoBehaviour
     RaycastHit interactionInfo;
     GameObject hitObject;
     GameObject objectInHand;
+    
+    // Player
+
+    // Health
+    public int m_MaxHealth = 100;
+    public int m_CurrentHealth;
+    public HealthBar m_HealthBar;
+
+    // Sanity
+    public int m_MaxSanity = 20;
+    public float m_CurrentSanity;
+    public SanityBar m_SanityBar;
 
     // Misc
     float mouseY;
@@ -36,9 +48,22 @@ public class PlayerController : MonoBehaviour
     int objectHoldingSpeed;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
+        // Player Health
+        m_CurrentHealth = m_MaxHealth;
+        m_HealthBar.SetMaxHealth(m_MaxHealth);
+
+        m_CurrentHealth = Mathf.Clamp(m_CurrentHealth, 0, m_MaxHealth);
+
+        // Player Sanity
+        m_CurrentSanity = m_MaxSanity;
+        m_SanityBar.SetMaxSanity(m_MaxSanity);
+
+        m_CurrentSanity = Mathf.Clamp(m_CurrentSanity, 0, m_MaxSanity);
+
         // Fetch components on the same gameObject
         m_Controller = new MouseKeyPlayerController();
         m_CharacterController = GetComponent<CharacterController>();
@@ -60,6 +85,17 @@ public class PlayerController : MonoBehaviour
         ResetHighlightedObject();
 
         CheckCharacterInput();
+
+        if (hitObject != null && hitObject.tag == "Enemy")
+        {
+            float sanityDamage = 1 * Time.deltaTime;
+            LoseSanity(sanityDamage);
+        }
+
+        m_CurrentHealth = Mathf.Clamp(m_CurrentHealth, 0, m_MaxHealth);
+
+        m_CurrentSanity = Mathf.Clamp(m_CurrentSanity, 0, m_MaxSanity);
+
     }
 
     void FixedUpdate()
@@ -102,6 +138,29 @@ public class PlayerController : MonoBehaviour
                 DropObject();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            TakeDamage(10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            HealPlayer(20);
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            m_CurrentHealth = 0;
+            HealPlayer(100);
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            m_CurrentSanity = 0;
+            GainSanity(20);
+        }
+                
     }
 
     public void CameraRotation()
@@ -301,5 +360,33 @@ public class PlayerController : MonoBehaviour
     {
         lastSelectedObject.GetComponent<Renderer>().material.color = Color.white;
         lastSelectedObject = null;
+    }
+
+    void TakeDamage(int damage)
+    {
+        m_CurrentHealth -= damage;
+
+        m_HealthBar.SetHealth(m_CurrentHealth);
+    }
+
+    void HealPlayer(int healAmount)
+    {
+        m_CurrentHealth += healAmount;
+
+        m_HealthBar.SetHealth(m_CurrentHealth);
+    }
+
+    void LoseSanity(float damage)
+    {
+        m_CurrentSanity -= damage;
+
+        m_SanityBar.SetSanity(m_CurrentSanity);
+    }
+
+    void GainSanity(int sanityGained)
+    {
+        m_CurrentSanity += sanityGained;
+
+        m_SanityBar.SetSanity(m_CurrentSanity);
     }
 }

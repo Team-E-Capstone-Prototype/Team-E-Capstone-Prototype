@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Interactable Object
   - Moveable Door
+  - Enemy
   layers:
   - Default
   - TransparentFX
