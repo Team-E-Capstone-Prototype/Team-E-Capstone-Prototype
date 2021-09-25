@@ -173,6 +173,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     void HighlightObjects()
     {
         //interactionRay = m_PlayerCamera.ScreenPointToRay(Input.mousePosition);
