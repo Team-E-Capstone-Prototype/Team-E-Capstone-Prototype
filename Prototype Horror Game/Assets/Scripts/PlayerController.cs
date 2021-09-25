@@ -53,25 +53,14 @@ public class PlayerController : MonoBehaviour
 
         HighlightObjects();
 
-        
-
         ResetHighlightedObject();
+
+        CheckCharacterInput();
     }
 
     void FixedUpdate()
     {
-        if (Input.GetButton("Fire1"))
-        {
-            OnLeftMouseClick();
-        }
 
-        if(m_isObjectHeld)
-        {
-            if(Input.GetKey(KeyCode.F))
-            {
-                DropObject();
-            }
-        }
     }
 
     public void HandleCharacterMovement()
@@ -93,6 +82,22 @@ public class PlayerController : MonoBehaviour
 
         // Character Jump and Gravity
         JumpAndGravity();
+    }
+
+    public void CheckCharacterInput()
+    {
+        if (Input.GetButton("Fire1"))
+        {
+            OnLeftMouseClick();
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (m_isObjectHeld)
+            {
+                DropObject();
+            }
+        }
     }
 
     public void CameraRotation()
