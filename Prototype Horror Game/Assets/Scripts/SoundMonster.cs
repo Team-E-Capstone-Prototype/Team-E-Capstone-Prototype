@@ -14,16 +14,19 @@ public class SoundMonster : MonoBehaviour
     void Start()
     {
         Ears.OnAudioDetect.AddListener(HandleAudioDetect);
+        NavAgent.stoppingDistance = 3f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
     }
 
     public void HandleAudioDetect(AudioEmitter Audio)
 	{
         NavAgent.SetDestination(Audio.gameObject.transform.position);
+
 	}
 
 }

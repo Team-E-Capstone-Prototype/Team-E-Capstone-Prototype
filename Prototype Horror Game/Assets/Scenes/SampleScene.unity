@@ -625,7 +625,7 @@ MonoBehaviour:
   m_FirstAudioClip: {fileID: 8300000, guid: 3022762b00129824aa2741c51e47f9f7, type: 3}
   m_SecondAudioClip: {fileID: 8300000, guid: c8cc149c86be1bb4e82189ec73d8ad93, type: 3}
   m_AEmitter: {fileID: 0}
-  MaxAudioRange: 5
+  MaxAudioRange: 15
   maxForce: 5
 --- !u!114 &695337819
 MonoBehaviour:
