@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     float mouseY;
     bool m_isObjectHeld;
     private GameObject lastSelectedObject = null;
+    int objectHoldingSpeed;
 
 
     // Start is called before the first frame update
@@ -229,11 +230,6 @@ public class PlayerController : MonoBehaviour
                 this.GetComponent<UIAppear>().HideHandGrabUI();
 
             }
-            //GameObject selectedObject = GameObject.FindGameObjectWithTag("Interactable Object");
-
-            //selectedObject.GetComponent<Renderer>().material.color = Color.white;
-
-            // Hide Hand Grab UI
         }
     }
 
@@ -265,13 +261,31 @@ public class PlayerController : MonoBehaviour
         Vector3 nextPos = m_PlayerCamera.transform.position + playerAim.direction * 3f;
         Vector3 currPos = objectInHand.transform.position;
 
-        objectInHand.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * 10;
+        float heldObjectMass = objectInHand.GetComponent<Rigidbody>().mass;
 
-        //if ((Vector3.Distance(objectInHand.transform.position, m_PlayerCamera.transform.position) > 3.0f) || (Input.GetButtonUp("Fire1")))
-        //if (Input.GetKey(KeyCode.Space))
-        //{
-        //    DropObject();
-        //}
+        // Temporary hack for objects to have varying weight
+        if (heldObjectMass >= 58.0f)
+        {
+            objectHoldingSpeed = 0;
+        }
+        else if (heldObjectMass >= 40.0f)
+        {
+            objectHoldingSpeed = 2;
+        }
+        else if (heldObjectMass >= 22.0f)
+        {
+            objectHoldingSpeed = 4;
+        }
+        else if (heldObjectMass >= 4.0f)
+        {
+            objectHoldingSpeed = 8;
+        }
+        else
+        {
+            objectHoldingSpeed = 10;
+        }
+
+        objectInHand.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * objectHoldingSpeed;
     }
 
     void DropObject()
