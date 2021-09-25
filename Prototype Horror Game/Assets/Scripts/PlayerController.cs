@@ -23,14 +23,17 @@ public class PlayerController : MonoBehaviour
     public float m_CameraHorizontalAngle = 0.0f; // Vertical Angle of Camera
     Vector3 m_PlayerRotation = Vector3.zero;
 
-    float mouseY;
-    bool m_isObjectHeld;
-
     // Raycasts
     Ray interactionRay;
     RaycastHit interactionInfo;
     GameObject hitObject;
     GameObject objectInHand;
+
+    // Misc
+    float mouseY;
+    bool m_isObjectHeld;
+    private GameObject lastSelectedObject = null;
+
 
     // Start is called before the first frame update
     void Start()
@@ -198,6 +201,13 @@ public class PlayerController : MonoBehaviour
                 hitObject = interactionInfo.collider.gameObject;
                 if (hitObject.tag == "Interactable Object" || hitObject.tag == "Moveable Door")
                 {
+                    if (lastSelectedObject != null)
+                    {
+                        ResetObjectColor();
+                    }
+
+                    lastSelectedObject = hitObject;
+
                     hitObject.GetComponent<Renderer>().material.color = Color.blue;
 
                     // Display Hand Grab UI
@@ -211,13 +221,19 @@ public class PlayerController : MonoBehaviour
     {
         if (hitObject != null && hitObject.tag != "Interactable Object")
         {
-            GameObject selectedObject = GameObject.FindGameObjectWithTag("Interactable Object");
+            if (lastSelectedObject != null)
+            {
+                ResetObjectColor();
 
-            selectedObject.GetComponent<Renderer>().material.color = Color.white;
+                // Hide Hand Grab UI
+                this.GetComponent<UIAppear>().HideHandGrabUI();
+
+            }
+            //GameObject selectedObject = GameObject.FindGameObjectWithTag("Interactable Object");
+
+            //selectedObject.GetComponent<Renderer>().material.color = Color.white;
 
             // Hide Hand Grab UI
-            this.GetComponent<UIAppear>().HideHandGrabUI();
-
         }
     }
 
@@ -265,5 +281,11 @@ public class PlayerController : MonoBehaviour
         objectInHand.GetComponent<Rigidbody>().useGravity = true;
         objectInHand.GetComponent<Rigidbody>().freezeRotation = false;
         objectInHand = null;
+    }
+
+    public void ResetObjectColor()
+    {
+        lastSelectedObject.GetComponent<Renderer>().material.color = Color.white;
+        lastSelectedObject = null;
     }
 }
