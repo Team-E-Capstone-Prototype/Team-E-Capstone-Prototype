@@ -64,9 +64,10 @@ public class PlayerController : MonoBehaviour
         {
             OnLeftMouseClick();
         }
-        if(objectInHand)
+
+        if(m_isObjectHeld)
         {
-            if(Input.GetButtonUp("Fire1"))
+            if(Input.GetKey(KeyCode.F))
             {
                 DropObject();
             }
@@ -227,11 +228,11 @@ public class PlayerController : MonoBehaviour
                 objectInHand = hitInfo.collider.gameObject;
 
                 //if (objectInHand.tag == "Moveable Door")
-                {
-                    m_isObjectHeld = true;
-                    objectInHand.GetComponent<Rigidbody>().useGravity = true;
-                    objectInHand.GetComponent<Rigidbody>().freezeRotation = false;
-                }
+                
+                m_isObjectHeld = true;
+                objectInHand.GetComponent<Rigidbody>().useGravity = true;
+                objectInHand.GetComponent<Rigidbody>().freezeRotation = false;
+                
             }
         }
     }
