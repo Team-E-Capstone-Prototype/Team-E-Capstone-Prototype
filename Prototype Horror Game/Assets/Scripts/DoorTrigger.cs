@@ -6,6 +6,9 @@ public class DoorTrigger : MonoBehaviour
 {
     public Door m_Door;
 
+    [SerializeField]
+    private float reqMass = 3.0f;
+
     bool m_IsActive = true;
 
     // Start is called before the first frame update
@@ -24,8 +27,17 @@ public class DoorTrigger : MonoBehaviour
     {
         if (m_IsActive)
         {
-            m_IsActive = false;
-            m_Door.OpenDoor();
+            if (other.gameObject.tag == "Interactable Object")
+            {
+                Rigidbody objectRB = other.gameObject.GetComponent<Rigidbody>();
+
+                if (objectRB.mass >= reqMass)
+                {
+                    m_IsActive = false;
+                    m_Door.OpenDoor();
+                }
+
+            }
         }
     }
 }
