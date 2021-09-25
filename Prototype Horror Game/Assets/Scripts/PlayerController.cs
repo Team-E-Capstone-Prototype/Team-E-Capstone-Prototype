@@ -64,6 +64,13 @@ public class PlayerController : MonoBehaviour
         {
             OnLeftMouseClick();
         }
+        if(objectInHand)
+        {
+            if(Input.GetButtonUp("Fire1"))
+            {
+                DropObject();
+            }
+        }
     }
 
     public void HandleCharacterMovement()
@@ -238,14 +245,16 @@ public class PlayerController : MonoBehaviour
 
         objectInHand.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * 10;
 
-        if (Vector3.Distance(objectInHand.transform.position, m_PlayerCamera.transform.position) > 5.0f)
-        {
-            DropObject();
-        }
+        //if ((Vector3.Distance(objectInHand.transform.position, m_PlayerCamera.transform.position) > 3.0f) || (Input.GetButtonUp("Fire1")))
+        //if (Input.GetKey(KeyCode.Space))
+        //{
+        //    DropObject();
+        //}
     }
 
     void DropObject()
     {
+        Debug.Log("Dropping");
         m_isObjectHeld = false;
         objectInHand.GetComponent<Rigidbody>().useGravity = true;
         objectInHand.GetComponent<Rigidbody>().freezeRotation = false;
