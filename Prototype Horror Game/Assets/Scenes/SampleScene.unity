@@ -777,7 +777,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 231891656}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.45, y: 5.98, z: -3.91}
+  m_LocalPosition: {x: 13.45, y: 0.99, z: -3.91}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1363,7 +1363,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 695337810}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.43, y: 5.98, z: -11.6}
+  m_LocalPosition: {x: 11.43, y: 0.99000025, z: -11.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1397,7 +1397,7 @@ MonoBehaviour:
   m_FirstAudioClip: {fileID: 8300000, guid: 3022762b00129824aa2741c51e47f9f7, type: 3}
   m_SecondAudioClip: {fileID: 8300000, guid: c8cc149c86be1bb4e82189ec73d8ad93, type: 3}
   m_AEmitter: {fileID: 0}
-  MaxAudioRange: 15
+  MaxAudioRange: 40
   maxForce: 5
 --- !u!114 &695337819
 MonoBehaviour:
@@ -1781,7 +1781,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 805456499}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.31, y: 5.98, z: -3.91}
+  m_LocalPosition: {x: 11.31, y: 0.99000025, z: -3.91}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2635,7 +2635,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1453637631}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.91, y: 5.98, z: -6.46}
+  m_LocalPosition: {x: 11.91, y: 0.99000025, z: -6.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3782,6 +3782,10 @@ PrefabInstance:
     - target: {fileID: 3129242405548075671, guid: 285531e7bf5997f4fb79eb0ce5378f41, type: 3}
       propertyPath: m_Name
       value: MoveDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 3129242405548075677, guid: 285531e7bf5997f4fb79eb0ce5378f41, type: 3}
+      propertyPath: m_MaxAudioRange
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 285531e7bf5997f4fb79eb0ce5378f41, type: 3}

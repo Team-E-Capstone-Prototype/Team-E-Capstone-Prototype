@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class AudioInfo
+{
+	public AudioEmitter emitter;
+	public AudioClip AClip;
+	public float Volume;
+	public float Pitch;
+
+}
+
 public class AudioEmitter : MonoBehaviour
 {
 
@@ -33,7 +42,7 @@ public class AudioEmitter : MonoBehaviour
 
 	}
 
-    public void EmitSound(AudioClip AClip,float Volume,float Radius)
+    public void EmitSound(AudioClip AClip, float Volume, float Radius)
 	{
         //play the actual sound
         m_AudioSource.PlayOneShot(AClip, Volume);
@@ -50,8 +59,13 @@ public class AudioEmitter : MonoBehaviour
 		{
             if(Vector3.Distance(gameObject.transform.position,Detector.gameObject.transform.position) < Radius)
 			{
-                //sound is detected
-                Detector.HandleDetection(this);
+				//sound is detected
+				AudioInfo newInfo = new AudioInfo();
+				newInfo.emitter = this;
+				newInfo.AClip = AClip;
+				newInfo.Volume = Volume;
+				newInfo.Pitch = m_AudioSource.pitch;
+                Detector.HandleDetection(newInfo);
 			}
 		}
 

@@ -7,7 +7,7 @@ public class AudioDetector : MonoBehaviour
 {
 
     [HideInInspector]
-    public UnityEvent<AudioEmitter> OnAudioDetect;
+    public UnityEvent<AudioInfo> OnAudioDetect;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,9 +20,9 @@ public class AudioDetector : MonoBehaviour
         
     }
 
-    public void HandleDetection(AudioEmitter AudioSource)
+    public void HandleDetection(AudioInfo info)
 	{
         //just pass it to listeners for now
-        OnAudioDetect.Invoke(AudioSource);
+        OnAudioDetect.Invoke(info);
 	}
 }
