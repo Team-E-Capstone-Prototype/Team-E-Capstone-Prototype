@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     float mouseY;
     bool m_isObjectHeld;
     private GameObject lastSelectedObject = null;
+    private Color lastSelectedColor;
     int objectHoldingSpeed;
 
 
@@ -268,8 +269,16 @@ public class PlayerController : MonoBehaviour
 
                     lastSelectedObject = hitObject;
 
-                    hitObject.GetComponent<Renderer>().material.color = Color.blue;
+                    lastSelectedColor = lastSelectedObject.GetComponent<Renderer>().material.color;
 
+                    if (hitObject.name == "LightBox" || hitObject.name == "ModerateBox" || hitObject.name == "HeavyBox")
+                    {
+                        // Temporary demonstration hack to keep example objects from highlighting
+                    }
+                    else
+                    {
+                        hitObject.GetComponent<Renderer>().material.color = Color.blue;
+                    }
                     // Display Hand Grab UI
                     this.GetComponent<UIAppear>().ShowHandGrabUI();
                 }
@@ -358,7 +367,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResetObjectColor()
     {
-        lastSelectedObject.GetComponent<Renderer>().material.color = Color.white;
+        lastSelectedObject.GetComponent<Renderer>().material.color = lastSelectedColor;
         lastSelectedObject = null;
     }
 
