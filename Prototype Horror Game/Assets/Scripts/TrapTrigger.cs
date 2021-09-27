@@ -20,7 +20,7 @@ public class TrapTrigger : MonoBehaviour
     {
         if (m_IsActive == true)
         {
-            if (other.gameObject.tag == "Player")
+            if (other.gameObject.tag == "Enemy")
             {
                 Monster.GetComponent<FollowMonster>().Stunned();
                 m_IsActive = false;
