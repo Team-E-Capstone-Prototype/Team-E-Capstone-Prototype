@@ -5,75 +5,79 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Controllers
-    MouseKeyPlayerController m_Controller; // Player Input Controls
-    CharacterController m_CharacterController; // Character Controller
+    MouseKeyPlayerController m_Controller;          // Player Input Controls
+    CharacterController m_CharacterController;      // Character Controller
 
     // Player
-    public float m_Speed = 10.0f; // Movement Speed
-    private Vector3 m_JumpVelocity; // Jump Velocity
-    private bool m_isGrounded = true; // Is Player Grounded?
-    private float m_JumpHeight = 1.0f; // Jump Height
-    private float gravityValue = -9.81f; // Gravity
-    public GameObject m_Hand;
+    public float m_Speed = 10.0f;                   // Movement Speed
+    private Vector3 m_JumpVelocity;                 // Jump Velocity
+    private bool m_isGrounded = true;               // Is Player Grounded?
+    private float m_JumpHeight = 1.0f;              // Jump Height
+    private float gravityValue = -9.81f;            // Gravity
+    public GameObject m_Hand;                       // Player Hand
 
     // Camera
-    public Camera m_PlayerCamera; // First Person Camera
-    public float m_RotationSpeed = 2.0f;// Rptation Speed of Camera
-    public float m_CameraVerticalAngle = 0.0f; // Vertical Angle of Camera
-    public float m_CameraHorizontalAngle = 0.0f; // Vertical Angle of Camera
+    public Camera m_PlayerCamera;                   // First Person Camera
+    public float m_RotationSpeed = 2.0f;            // Rptation Speed of Camera
+    public float m_CameraVerticalAngle = 0.0f;      // Vertical Angle of Camera
+    public float m_CameraHorizontalAngle = 0.0f;    // Vertical Angle of Camera
     Vector3 m_PlayerRotation = Vector3.zero;
 
     // Raycasts
-    Ray interactionRay;
-    RaycastHit interactionInfo;
-    GameObject hitObject;
-    GameObject objectInHand;
-    
+    Ray interactionRay;                             // Interaction Ray
+    RaycastHit interactionInfo;                     // Structure used to get information back from a raycast
+    GameObject hitObject;                           // Object Hit with Raycast
+    GameObject objectInHand;                        // Object in Player Hand
+
     // Player
 
     // Health
-    public int m_MaxHealth = 100;
-    public int m_CurrentHealth;
-    public HealthBar m_HealthBar;
+    public int m_MaxHealth = 100;                   // Max Health of Player
+    public int m_CurrentHealth;                     // Current Health of Player
+    public HealthBar m_HealthBar;                   // UI Health Bar
 
     // Sanity
-    public int m_MaxSanity = 20;
-    public float m_CurrentSanity;
-    public SanityBar m_SanityBar;
+    public int m_MaxSanity = 20;                    // Max Sanity of Player
+    public float m_CurrentSanity;                   // Current Sanity of Player
+    public SanityBar m_SanityBar;                   // UI Sanity Bar
 
     // Misc
     float mouseY;
-    bool m_isObjectHeld;
-    private GameObject lastSelectedObject = null;
-    private Color lastSelectedColor;
-    int objectHoldingSpeed;
-
-
+    bool m_isObjectHeld = false;                    // Is Object Held?
+    private GameObject lastSelectedObject = null;   // Last Selected Object
+    private Color lastSelectedColor;                // Last Selected Object Color
+    int objectHoldingSpeed;                         // Speed of Held Object
 
     // Start is called before the first frame update
     void Start()
     {
         // Player Health
-        m_CurrentHealth = m_MaxHealth;
-        m_HealthBar.SetMaxHealth(m_MaxHealth);
+        {
+            m_CurrentHealth = m_MaxHealth;
+            m_HealthBar.SetMaxHealth(m_MaxHealth);
 
-        m_CurrentHealth = Mathf.Clamp(m_CurrentHealth, 0, m_MaxHealth);
+            m_CurrentHealth = Mathf.Clamp(m_CurrentHealth, 0, m_MaxHealth);
+        }
 
         // Player Sanity
-        m_CurrentSanity = m_MaxSanity;
-        m_SanityBar.SetMaxSanity(m_MaxSanity);
+        {
+            m_CurrentSanity = m_MaxSanity;
+            m_SanityBar.SetMaxSanity(m_MaxSanity);
 
-        m_CurrentSanity = Mathf.Clamp(m_CurrentSanity, 0, m_MaxSanity);
+            m_CurrentSanity = Mathf.Clamp(m_CurrentSanity, 0, m_MaxSanity);
+        }
 
         // Fetch components on the same gameObject
-        m_Controller = new MouseKeyPlayerController();
-        m_CharacterController = GetComponent<CharacterController>();
+        {
+            m_Controller = new MouseKeyPlayerController();
+            m_CharacterController = GetComponent<CharacterController>();
+        }
 
         // Cursor setup
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
-        m_isObjectHeld = false;
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     // Update is called once per frame
@@ -87,16 +91,21 @@ public class PlayerController : MonoBehaviour
 
         CheckCharacterInput();
 
+        // If Hit Object is Enemy...
         if (hitObject != null && hitObject.tag == "Enemy")
         {
+            // Calculate Sanity Damage
             float sanityDamage = 1 * Time.deltaTime;
+
+            // Lose Sanity based on Sanity Damage
             LoseSanity(sanityDamage);
         }
 
+        // Update Health
         m_CurrentHealth = Mathf.Clamp(m_CurrentHealth, 0, m_MaxHealth);
 
+        // Update Sanity
         m_CurrentSanity = Mathf.Clamp(m_CurrentSanity, 0, m_MaxSanity);
-
     }
 
     void FixedUpdate()
@@ -127,11 +136,13 @@ public class PlayerController : MonoBehaviour
 
     public void CheckCharacterInput()
     {
+        // If Fire1 is pressed, interact with object
         if (Input.GetButton("Fire1"))
         {
             OnLeftMouseClick();
         }
 
+        // If Mouse Left Cicked is pressed, Drop Object in Hand
         if (Input.GetMouseButtonUp(0))
         {
             if (m_isObjectHeld)
@@ -140,28 +151,31 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        // If X is pressed, Current Health takes 10 damage
         if (Input.GetKeyDown(KeyCode.X))
         {
             TakeDamage(10);
         }
 
+        // If C is pressed, increase Current Health to 20
         if (Input.GetKeyDown(KeyCode.C))
         {
             HealPlayer(20);
         }
 
+        // If M is pressed, reset Current Health to 100
         if (Input.GetKeyDown(KeyCode.M))
         {
             m_CurrentHealth = 0;
             HealPlayer(100);
         }
 
+        // If T is pressed, reset Current Sanity to 20
         if (Input.GetKeyDown(KeyCode.T))
         {
             m_CurrentSanity = 0;
             GainSanity(20);
         }
-                
     }
 
     public void CameraRotation()
@@ -234,7 +248,7 @@ public class PlayerController : MonoBehaviour
 
     void OnLeftMouseClick()
     {
-        if (hitObject.tag == "Moveable Door" || hitObject.tag=="Interactable Object")
+        if (hitObject.tag == "Moveable Door" || hitObject.tag == "Interactable Object")
         {
             if (m_isObjectHeld == false)
             {
@@ -249,7 +263,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
 
     void HighlightObjects()
     {
@@ -313,11 +326,11 @@ public class PlayerController : MonoBehaviour
                 objectInHand = hitInfo.collider.gameObject;
 
                 //if (objectInHand.tag == "Moveable Door")
-                
+
                 m_isObjectHeld = true;
                 objectInHand.GetComponent<Rigidbody>().useGravity = true;
                 objectInHand.GetComponent<Rigidbody>().freezeRotation = false;
-                
+
             }
         }
     }
