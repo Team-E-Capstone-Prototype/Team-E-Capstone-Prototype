@@ -23,9 +23,12 @@ public class DoorSound : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_AEmitter = GetComponent<AudioEmitter>();
-        m_AudioSource = GetComponent<AudioSource>();
-        m_Body = GetComponent<Rigidbody>();
+        // Fetch components on the same gameObject
+        {
+            m_AEmitter = GetComponent<AudioEmitter>();
+            m_AudioSource = GetComponent<AudioSource>();
+            m_Body = GetComponent<Rigidbody>();
+        }
     }
 
     // Update is called once per frame

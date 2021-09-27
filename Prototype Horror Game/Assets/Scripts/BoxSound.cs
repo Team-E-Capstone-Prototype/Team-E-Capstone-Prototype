@@ -16,6 +16,7 @@ public class BoxSound : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Fetch components on the same gameObject
         m_AEmitter = GetComponent<AudioEmitter>();
     }
 
