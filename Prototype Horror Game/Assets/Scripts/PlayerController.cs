@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     public float m_RotationSpeed = 2.0f;            // Rptation Speed of Camera
     public float m_CameraVerticalAngle = 0.0f;      // Vertical Angle of Camera
     public float m_CameraHorizontalAngle = 0.0f;    // Vertical Angle of Camera
-    Vector3 m_PlayerRotation = Vector3.zero;
 
     // Raycasts
     Ray interactionRay;                             // Interaction Ray
@@ -42,7 +41,6 @@ public class PlayerController : MonoBehaviour
     public SanityBar m_SanityBar;                   // UI Sanity Bar
 
     // Misc
-    float mouseY;
     bool m_isObjectHeld = false;                    // Is Object Held?
     private GameObject lastSelectedObject = null;   // Last Selected Object
     private Color lastSelectedColor;                // Last Selected Object Color
@@ -178,24 +176,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // CameraRotation is called when rotating character
     public void CameraRotation()
     {
-        //    // Set PlayerRotation to mouse input
-        //    m_PlayerRotation += m_Controller.GetLookInput() * m_RotationSpeed;
-        //    m_PlayerRotation.z = 0.0f;
-
-        //    // Clamp Player Rotation to (-90, 90)
-        //    m_PlayerRotation.y = Mathf.Clamp(m_PlayerRotation.y, -90.0f, 90.0f);
-
-        //    // Get a rotation based on mouse input around (0, 1, 0)
-        //    Quaternion xQuat = Quaternion.AngleAxis(m_PlayerRotation.x, Vector3.up);
-
-        //    // Get a rotation based on mouse input around (-1, 0, 0)
-        //    Quaternion yQuat = Quaternion.AngleAxis(m_PlayerRotation.y, Vector3.left);
-
-        //    // Change the players camera rotation based on Quaternion
-        //    m_PlayerCamera.transform.rotation = xQuat * yQuat;
-
         // Horizontal character rotation
         {
             // Rotate the transform with the input speed around its local Y axis
@@ -212,10 +195,10 @@ public class PlayerController : MonoBehaviour
 
             // Apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
             m_PlayerCamera.transform.localRotation = Quaternion.Euler(m_CameraVerticalAngle, 0.0f, 0.0f);
-
         }
     }
 
+    // MoveCharacter is called when moving character
     public void MoveCharacter()
     {
         // Set targetDirection to movement input
@@ -223,13 +206,13 @@ public class PlayerController : MonoBehaviour
 
         // Set targetDirection to world space of player camera based on movement input
         targetDirection = m_PlayerCamera.transform.TransformDirection(targetDirection);
-
         targetDirection.y = 0.0f;
 
         // Change the players movement based on the targetDirection
         m_CharacterController.Move(targetDirection * m_Speed * Time.deltaTime);
     }
 
+    // JumpAndGravity is called when character jumping and dealing with gravity
     public void JumpAndGravity()
     {
         // If player input for Jump is pressed and is grounded...
@@ -246,24 +229,32 @@ public class PlayerController : MonoBehaviour
         m_CharacterController.Move(m_JumpVelocity * Time.deltaTime);
     }
 
+    // OnLeftMouseClick is called when interacting with objects
     void OnLeftMouseClick()
     {
+        // If Hit Object is a Movable Door or Interactable Object...
         if (hitObject.tag == "Moveable Door" || hitObject.tag == "Interactable Object")
         {
+            // If Object Held is false...
             if (m_isObjectHeld == false)
             {
                 Debug.Log("Trying Pickup");
+
+                // Try picking up object 
                 TryPickup();
             }
             //hitObject.transform.position = transform.position;
             else
             {
                 Debug.Log("Holding");
+
+                // Hold Object
                 holdObject();
             }
         }
     }
 
+    // HighlightObjects is called when looking at an object
     void HighlightObjects()
     {
         //interactionRay = m_PlayerCamera.ScreenPointToRay(Input.mousePosition);
@@ -299,6 +290,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // ResetHighlightedObject is called when resetting a hightlighted object
     void ResetHighlightedObject()
     {
         if (hitObject != null && hitObject.tag != "Interactable Object")
@@ -314,6 +306,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // TryPickup is called when attempting to pickup an object
     void TryPickup()
     {
         if (m_isObjectHeld == false)
@@ -335,6 +328,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // holdObject is called when holding an object
     void holdObject()
     {
         Ray playerAim = m_PlayerCamera.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
@@ -369,6 +363,7 @@ public class PlayerController : MonoBehaviour
         objectInHand.GetComponent<Rigidbody>().velocity = (nextPos - currPos) * objectHoldingSpeed;
     }
 
+    // DropObject is called when dropping an object
     void DropObject()
     {
         Debug.Log("Dropping");
@@ -378,12 +373,14 @@ public class PlayerController : MonoBehaviour
         objectInHand = null;
     }
 
+    // ResetObjectColor is called when resetting the last selected object color
     public void ResetObjectColor()
     {
         lastSelectedObject.GetComponent<Renderer>().material.color = lastSelectedColor;
         lastSelectedObject = null;
     }
 
+    // TakeDamage is called when player takes damage
     void TakeDamage(int damage)
     {
         m_CurrentHealth -= damage;
@@ -391,6 +388,7 @@ public class PlayerController : MonoBehaviour
         m_HealthBar.SetHealth(m_CurrentHealth);
     }
 
+    // HealPlayer is called when player heals
     void HealPlayer(int healAmount)
     {
         m_CurrentHealth += healAmount;
@@ -398,6 +396,7 @@ public class PlayerController : MonoBehaviour
         m_HealthBar.SetHealth(m_CurrentHealth);
     }
 
+    // LoseSanity is called when player losses sanity
     void LoseSanity(float damage)
     {
         m_CurrentSanity -= damage;
@@ -405,6 +404,7 @@ public class PlayerController : MonoBehaviour
         m_SanityBar.SetSanity(m_CurrentSanity);
     }
 
+    // GainSanity is called when player gains sanity
     void GainSanity(int sanityGained)
     {
         m_CurrentSanity += sanityGained;
