@@ -8,7 +8,6 @@ public class BoxSound : MonoBehaviour
     public AudioClip m_SecondAudioClip;
     public AudioEmitter m_AEmitter;
 
-
     public float MaxAudioRange = 10f;
     public float maxForce = 5;
 
