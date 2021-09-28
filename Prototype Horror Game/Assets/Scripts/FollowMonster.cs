@@ -50,6 +50,11 @@ public class FollowMonster : MonoBehaviour
             FollowPlayer();
         }
 
+        if (currState == AIState.Idle)
+        {
+            Monster.velocity = Vector3.zero;
+        }
+
         if (m_enableTimer == true)
         {
             currTime -= 1 * Time.deltaTime;
