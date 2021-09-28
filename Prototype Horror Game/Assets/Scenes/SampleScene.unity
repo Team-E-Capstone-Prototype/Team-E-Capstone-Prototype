@@ -1746,7 +1746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Monster: {fileID: 301052667}
-  MaxListenDist: 10
+  MaxListenDist: 9.5
 --- !u!195 &301052667
 NavMeshAgent:
   m_ObjectHideFlags: 0
