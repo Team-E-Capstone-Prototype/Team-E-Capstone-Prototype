@@ -7,6 +7,7 @@ TagManager:
   - Interactable Object
   - Moveable Door
   - Enemy
+  - Audio Zone
   layers:
   - Default
   - TransparentFX

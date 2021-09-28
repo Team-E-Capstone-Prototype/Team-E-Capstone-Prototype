@@ -46,6 +46,8 @@ public class PlayerController : MonoBehaviour
     private Color lastSelectedColor;                // Last Selected Object Color
     int objectHoldingSpeed;                         // Speed of Held Object
 
+    AudioSource m_AudioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,7 +71,10 @@ public class PlayerController : MonoBehaviour
         {
             m_Controller = new MouseKeyPlayerController();
             m_CharacterController = GetComponent<CharacterController>();
+            m_AudioSource = GetComponent<AudioSource>();
         }
+
+        m_AudioSource.enabled = false;
 
         // Cursor setup
         {
@@ -410,5 +415,21 @@ public class PlayerController : MonoBehaviour
         m_CurrentSanity += sanityGained;
 
         m_SanityBar.SetSanity(m_CurrentSanity);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Audio Zone")
+        {
+            m_AudioSource.enabled = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Audio Zone")
+        {
+            m_AudioSource.enabled = false;
+        }
     }
 }
