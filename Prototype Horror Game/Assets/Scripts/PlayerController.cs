@@ -179,6 +179,11 @@ public class PlayerController : MonoBehaviour
             m_CurrentSanity = 0;
             GainSanity(20);
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     // CameraRotation is called when rotating character

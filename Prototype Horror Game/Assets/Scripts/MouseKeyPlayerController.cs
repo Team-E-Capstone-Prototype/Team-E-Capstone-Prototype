@@ -77,4 +77,9 @@ public class MouseKeyPlayerController : ControllerInterface
     {
         return Input.GetKeyDown(KeyCode.C);
     }
+
+    public bool QuitGame()
+    {
+        return Input.GetKeyDown(KeyCode.Escape);
+    }
 }
