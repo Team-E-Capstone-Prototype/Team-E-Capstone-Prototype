@@ -6953,6 +6953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1475315699}
   - component: {fileID: 1475315700}
+  - component: {fileID: 1475315701}
   m_Layer: 0
   m_Name: Audio Zone
   m_TagString: Audio Zone
@@ -6968,8 +6969,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1475315698}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 20.6, y: -20.375475, z: -10.4}
-  m_LocalScale: {x: 20.97, y: 17, z: 39.63}
+  m_LocalPosition: {x: 20.69, y: -20.375475, z: -10.52}
+  m_LocalScale: {x: 23.4, y: 17.2, z: 40.1}
   m_Children: []
   m_Father: {fileID: 947222916}
   m_RootOrder: 12
@@ -6987,6 +6988,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1475315701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475315698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c801e7e6f396de4c8964eb19847b9c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1478301265
 GameObject:
   m_ObjectHideFlags: 0
