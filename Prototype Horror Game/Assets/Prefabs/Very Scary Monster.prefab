@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5848436911613867490}
   - component: {fileID: 5848436911613867489}
   - component: {fileID: 619118303349017799}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Very Scary Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

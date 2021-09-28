@@ -88,7 +88,7 @@ public class FollowMonster : MonoBehaviour
 
     void ListenForPlayer()
     {
-        Debug.Log("Listening for Player");
+        //Debug.Log("Listening for Player");
         if (Vector3.Distance(playerObject.transform.position, transform.position) < MaxListenDist)
         {
             Debug.Log("Player is Near");

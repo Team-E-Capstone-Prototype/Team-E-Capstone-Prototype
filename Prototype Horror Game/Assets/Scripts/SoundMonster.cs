@@ -99,6 +99,11 @@ public class SoundMonster : MonoBehaviour
 
     public void HandleAudioDetect(AudioInfo Info)
 	{
+
+
+
+
+
         LastHeardPosition = Info.emitter.transform.position;
         if (CurrentState == AIState.Mimic || CurrentState == AIState.Seeking)
 		{
@@ -132,12 +137,12 @@ public class SoundMonster : MonoBehaviour
 
     IEnumerator State_Idle()
 	{
-        Debug.Log("Entered Idle State");
+        //Debug.Log("Entered Idle State");
         yield return null;
 	}
     IEnumerator State_Listening()
     {
-        Debug.Log("Entered Listening State");
+        //Debug.Log("Entered Listening State");
 
 
         int ABufferSize = AudioInfoBuffer.Count;
@@ -164,7 +169,7 @@ public class SoundMonster : MonoBehaviour
     }
     IEnumerator State_Mimic()
     {
-        Debug.Log("Entered Mimic State");
+        //Debug.Log("Entered Mimic State");
 
 
         for (int i = 0; i < AudioInfoBuffer.Count; i++)
@@ -188,7 +193,7 @@ public class SoundMonster : MonoBehaviour
     }
     IEnumerator State_Seeking()
     {
-        Debug.Log("Entered Seeking State");
+        //Debug.Log("Entered Seeking State");
 
         //just hold on now
         yield return new WaitForSecondsRealtime(1);
@@ -204,7 +209,7 @@ public class SoundMonster : MonoBehaviour
         }
 
 
-        Debug.Log("Done Seeking!");
+        //Debug.Log("Done Seeking!");
         EnterState(AIState.Idle);
         yield return null;
     }

@@ -71,7 +71,7 @@ public class DoorSound : MonoBehaviour
 
         if (force <= m_maxForce)
         {
-            volume = force / m_maxForce;
+            volume = Mathf.Pow(force / m_maxForce,1.5f);
         }
 
         return volume;
