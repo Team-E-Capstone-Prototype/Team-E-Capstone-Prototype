@@ -99,9 +99,16 @@ public class SoundMonster : MonoBehaviour
 
     public void HandleAudioDetect(AudioInfo Info)
 	{
-
-
-
+        //
+        //	Vector3 EmitterPos = this.m_AudioSource.transform.position;
+        //	Vector3 DetectorPos = Detector.transform.position;
+        //	Vector3 Dir = (DetectorPos - EmitterPos).normalized;
+        //
+        //	int NumCollisions = Physics.RaycastAll(EmitterPos, Dir, 6 | 7).Length;
+        //
+        //	Debug.Log(NumCollisions + "      " + Time.time);
+        //	if (Dist < Radius / NumCollisions)
+        //	{
 
 
         LastHeardPosition = Info.emitter.transform.position;

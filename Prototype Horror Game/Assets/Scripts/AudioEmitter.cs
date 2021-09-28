@@ -57,30 +57,20 @@ public class AudioEmitter : MonoBehaviour
         AudioDetector[] Detectors = FindObjectsOfType<AudioDetector>();
         foreach (var Detector in Detectors)
 		{
-			//float Dist = Vector3.Distance(gameObject.transform.position, Detector.gameObject.transform.position);
-			//
-			//if (Dist < Radius)
-			//{
-			//
-			//	Vector3 EmitterPos = this.m_AudioSource.transform.position;
-			//	Vector3 DetectorPos = Detector.transform.position;
-			//	Vector3 Dir = (DetectorPos - EmitterPos).normalized;
-			//
-			//	int NumCollisions = Physics.RaycastAll(EmitterPos, Dir, 6 | 7).Length;
-			//
-			//	Debug.Log(NumCollisions + "      " + Time.time);
-			//	if (Dist < Radius / NumCollisions)
-			//	{
+			float Dist = Vector3.Distance(gameObject.transform.position, Detector.gameObject.transform.position);
 
-					//sound is detected
-					AudioInfo newInfo = new AudioInfo();
-					newInfo.emitter = this;
-					newInfo.AClip = AClip;
-					newInfo.Volume = Volume;
-					newInfo.Pitch = m_AudioSource.pitch;
-					Detector.HandleDetection(newInfo);
-				//}
-			//}
+			if (Dist < Radius)
+			{
+
+
+				//sound is detected
+				AudioInfo newInfo = new AudioInfo();
+				newInfo.emitter = this;
+				newInfo.AClip = AClip;
+				newInfo.Volume = Volume;
+				newInfo.Pitch = m_AudioSource.pitch;
+				Detector.HandleDetection(newInfo);
+			}
 		}
 
 	}
