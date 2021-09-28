@@ -60,6 +60,22 @@ public class FollowMonster : MonoBehaviour
                 m_enableTimer = false;
             }
         }
+
+        if (currState == AIState.Following)
+        {
+            playerObject.GetComponent<AudioSource>().volume = (Vector3.Distance(playerObject.transform.position, transform.position) / MaxListenDist);
+            Debug.Log(Monster.velocity.magnitude);
+            //if (Vector3.Distance(playerObject.transform.position, transform.position) <= Monster.stoppingDistance)
+            if (Monster.velocity.magnitude == 0)
+            {
+                playerObject.GetComponent<AudioSource>().volume = 0;
+            }
+        }
+
+        if (Vector3.Distance(playerObject.transform.position, transform.position) > MaxListenDist)
+        {
+            EnterState(AIState.Listening);
+        }
     }
 
     void EnterState(AIState newState)
@@ -108,5 +124,11 @@ public class FollowMonster : MonoBehaviour
         EnterState(AIState.Idle);
         currTime = StunTimer;
         m_enableTimer = true;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 5.0f);
     }
 }
