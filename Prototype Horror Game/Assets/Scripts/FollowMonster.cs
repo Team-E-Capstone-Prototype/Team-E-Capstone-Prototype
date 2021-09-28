@@ -129,6 +129,6 @@ public class FollowMonster : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 5.0f);
+        Gizmos.DrawWireSphere(transform.position, MaxListenDist);
     }
 }
