@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
     // Health
     public int m_MaxHealth = 100;                   // Max Health of Player
-    public int m_CurrentHealth;                     // Current Health of Player
+    public float m_CurrentHealth;                     // Current Health of Player
     public HealthBar m_HealthBar;                   // UI Health Bar
 
     // Sanity
@@ -97,11 +97,18 @@ public class PlayerController : MonoBehaviour
         // If Hit Object is Enemy...
         if (hitObject != null && hitObject.tag == "Enemy")
         {
-            // Calculate Sanity Damage
-            float sanityDamage = 1 * Time.deltaTime;
-
+            if (m_CurrentSanity > 0.0f)
+            {
+                // Calculate Sanity Damage
+                float sanityDamage = 1 * Time.deltaTime;
+                LoseSanity(sanityDamage);
+            }
+            if (m_CurrentSanity == 0)
+            {
+                float healthDamage = 10 * Time.deltaTime;
+                TakeDamage(healthDamage);
+            }
             // Lose Sanity based on Sanity Damage
-            LoseSanity(sanityDamage);
         }
 
         // Update Health
@@ -178,6 +185,14 @@ public class PlayerController : MonoBehaviour
         {
             m_CurrentSanity = 0;
             GainSanity(20);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (m_CurrentSanity > 0)
+            {
+                LoseSanity(5);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -391,7 +406,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // TakeDamage is called when player takes damage
-    void TakeDamage(int damage)
+    void TakeDamage(float damage)
     {
         m_CurrentHealth -= damage;
 
@@ -411,7 +426,9 @@ public class PlayerController : MonoBehaviour
     {
         m_CurrentSanity -= damage;
 
+
         m_SanityBar.SetSanity(m_CurrentSanity);
+
     }
 
     // GainSanity is called when player gains sanity
