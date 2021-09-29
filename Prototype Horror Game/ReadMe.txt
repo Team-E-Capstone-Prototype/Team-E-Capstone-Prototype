@@ -24,6 +24,8 @@ C to increase Health
 
 M to Reset Health
 
+Z to decrease Sanity
+
 T to Reset Sanity
 
 ******************************
