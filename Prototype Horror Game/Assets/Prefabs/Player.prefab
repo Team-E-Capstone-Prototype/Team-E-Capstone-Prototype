@@ -144,10 +144,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Speed: 10
   m_Hand: {fileID: 4870024135353786024}
+  m_pushPower: 2
   m_PlayerCamera: {fileID: 4870024135896415573}
   m_RotationSpeed: 2
   m_CameraVerticalAngle: 0
   m_CameraHorizontalAngle: 0
+  m_MaxHealth: 100
+  m_CurrentHealth: 0
+  m_HealthBar: {fileID: 0}
+  m_MaxSanity: 20
+  m_CurrentSanity: 0
+  m_SanityBar: {fileID: 0}
 --- !u!143 &4870024135883295475
 CharacterController:
   m_ObjectHideFlags: 0
@@ -204,7 +211,6 @@ GameObject:
   - component: {fileID: 4870024135895292891}
   - component: {fileID: 4870024135895292903}
   - component: {fileID: 4870024135895292900}
-  - component: {fileID: 4870024135895292901}
   - component: {fileID: 4870024135895292890}
   m_Layer: 3
   m_Name: Capsule
@@ -278,22 +284,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &4870024135895292901
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4870024135895292888}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!136 &4870024135895292890
 CapsuleCollider:
   m_ObjectHideFlags: 0
