@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private float m_JumpHeight = 1.0f;              // Jump Height
     private float gravityValue = -9.81f;            // Gravity
     public GameObject m_Hand;                       // Player Hand
+    public float m_pushPower = 2.0f;                // Pushing Power
 
     // Camera
     public Camera m_PlayerCamera;                   // First Person Camera
@@ -453,5 +454,21 @@ public class PlayerController : MonoBehaviour
         {
             m_AudioSource.enabled = false;
         }
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody rigidbody = hit.collider.attachedRigidbody;
+
+        if (hit.moveDirection.y < -0.3f || rigidbody == null || rigidbody.isKinematic)
+        {
+            return;
+        }
+
+        // Calculate push direction from move direction
+        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+
+        // Apply the push
+        rigidbody.velocity = pushDir * m_pushPower;
     }
 }
